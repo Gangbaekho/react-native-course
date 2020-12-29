@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   ScrollView,
+  FlatList,
 } from "react-native";
 
 export default function App() {
@@ -18,8 +19,14 @@ export default function App() {
   };
 
   const addGoalHandler = () => {
-    // setCourseGoals([...courseGoals, enteredGoal]);
-    setCourseGoals((currentGoals) => [...currentGoals, enteredGoal]);
+    // 단순 string array가 아니라 key를 가지고 있는
+    // Object의 array로 만들면은 FlatList를 적절히 쓸 수 있다.
+    // key가 map에서 사용하는 key로 자동으로 들어간다고
+    // 생각을 하면 된다.
+    setCourseGoals((currentGoals) => [
+      ...currentGoals,
+      { key: Math.random().toString(), value: enteredGoal },
+    ]);
   };
 
   return (
@@ -33,13 +40,14 @@ export default function App() {
         />
         <Button title="ADD" onPress={addGoalHandler} />
       </View>
-      <ScrollView>
-        {courseGoals.map((goal) => (
-          <View key={goal} style={styles.listItem}>
-            <Text>{goal}</Text>
+      <FlatList
+        data={courseGoals}
+        renderItem={(itemData) => (
+          <View style={styles.listItem}>
+            <Text>{itemData.item.value}</Text>
           </View>
-        ))}
-      </ScrollView>
+        )}
+      />
     </View>
   );
 }
