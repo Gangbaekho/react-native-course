@@ -6,7 +6,6 @@ import {
   View,
   TextInput,
   Button,
-  ScrollView,
   FlatList,
 } from "react-native";
 
@@ -15,6 +14,7 @@ import GoalInput from "./components/GoalInput";
 
 export default function App() {
   const [courseGoals, setCourseGoals] = useState([]);
+  const [isAddMode, setIsAddMode] = useState(false);
 
   const addGoalHandler = (goalTitle) => {
     setCourseGoals((currentGoals) => [
@@ -31,7 +31,9 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
-      <GoalInput onAddGoal={addGoalHandler} />
+      <Button title="Add New Goal" onPress={() => setIsAddMode(true)} />
+      {/* 여기다가 visible로 전달을 하는 것이다. Modal의 활성화 여부를 위에서 컨트롤 함 */}
+      <GoalInput visible={isAddMode} onAddGoal={addGoalHandler} />
       <FlatList
         keyExtractor={(item, index) => item.id}
         data={courseGoals}

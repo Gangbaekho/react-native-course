@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet } from "react-native";
+import { View, TextInput, Button, StyleSheet, Modal } from "react-native";
 
 const GoalInput = (props) => {
   const [enteredGoal, setEnteredGoal] = useState("");
@@ -9,15 +9,20 @@ const GoalInput = (props) => {
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        placeholder="Course Goal"
-        onChangeText={goalInputHandler}
-        value={enteredGoal}
-        style={styles.input}
-      />
-      <Button title="ADD" onPress={() => props.onAddGoal(enteredGoal)} />
-    </View>
+    // 이렇게 visible=false로 하게되면 안보이게 된다.
+    // 마치 display:none과 같은 효과라고 할까나.. 이건 그냥 내생각
+    // animationType을 slide로 하면은 밑에서 부터 모달이 튀어나온다 정도.
+    <Modal visible={props.visible} animationType="slide">
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Course Goal"
+          onChangeText={goalInputHandler}
+          value={enteredGoal}
+          style={styles.input}
+        />
+        <Button title="ADD" onPress={() => props.onAddGoal(enteredGoal)} />
+      </View>
+    </Modal>
   );
 };
 
